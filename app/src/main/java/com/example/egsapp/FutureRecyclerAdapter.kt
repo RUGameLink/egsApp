@@ -10,7 +10,7 @@ import com.squareup.picasso.Picasso
 
 class FutureRecyclerAdapter(private val game: ArrayList<Game>): RecyclerView.Adapter<FutureRecyclerAdapter.MyViewHolder>() {
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){ //Инициализация объектов лайаута айтемов ресайклера
-        val wallpaperImage: ImageView = itemView.findViewById(R.id.wallpaperImageFut)
+        var wallpaperImage: ImageView = itemView.findViewById(R.id.wallpaperImageFut)
         val titleText: TextView = itemView.findViewById(R.id.titleTextFut)
         val descText: TextView = itemView.findViewById(R.id.descTextFut)
 

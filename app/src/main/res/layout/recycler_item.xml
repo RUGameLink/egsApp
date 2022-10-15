@@ -28,17 +28,17 @@
                 android:id="@+id/wallpaperImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp"
                 android:scaleType="center"
+                tools:ignore="ContentDescription"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/blue"
+                android:background="@drawable/bg_rounded"
                 android:backgroundTint="@color/blue"
-                android:paddingTop="5dp"
+                android:paddingTop="0dp"
                 android:paddingBottom="5dp"
                 android:text="СЕЙЧАС БЕСПЛАТНО"
                 android:textAlignment="center"

@@ -3,9 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/worker/AndroidStudioProjects/egsApp/app/src/main/res/drawable/bg_rounded.xml" value="0.361" />
+        <entry key="..\:/Users/worker/AndroidStudioProjects/egsApp/app/src/main/res/drawable/card_bg.xml" value="0.318" />
+        <entry key="..\:/Users/worker/AndroidStudioProjects/egsApp/app/src/main/res/drawable/future_bg_rounded.xml" value="0.318" />
+        <entry key="..\:/Users/worker/AndroidStudioProjects/egsApp/app/src/main/res/drawable/img_bg_rounded.xml" value="0.318" />
         <entry key="..\:/Users/worker/AndroidStudioProjects/egsApp/app/src/main/res/layout/activity_main.xml" value="0.3496376811594203" />
         <entry key="..\:/Users/worker/AndroidStudioProjects/egsApp/app/src/main/res/layout/future_recycler_item.xml" value="0.3496376811594203" />
-        <entry key="..\:/Users/worker/AndroidStudioProjects/egsApp/app/src/main/res/layout/recycler_item.xml" value="0.3496376811594203" />
+        <entry key="..\:/Users/worker/AndroidStudioProjects/egsApp/app/src/main/res/layout/recycler_item.xml" value="0.7163299663299664" />
+        <entry key="..\:/Users/worker/AndroidStudioProjects/egsApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1935" />
       </map>
     </option>
   </component>
