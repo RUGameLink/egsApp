@@ -15,13 +15,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var statusText: TextView
     private lateinit var currentText: TextView
     private lateinit var futureText: TextView
+    private val gameList = ArrayList<Game>()
+    private val gameFutList = ArrayList<Game>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val gameList = ArrayList<Game>()
-        val gameFutList = ArrayList<Game>()
+
 
 
 
