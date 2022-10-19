@@ -1,19 +1,22 @@
 package com.example.egsapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.egsapp.adapter.CurrentRecyclerAdapter
 import com.example.egsapp.adapter.FutureRecyclerAdapter
 import com.example.egsapp.database.DbManager
 import okhttp3.OkHttpClient
-import java.lang.Exception
+import okhttp3.Request
+import org.json.JSONObject
+import org.json.JSONTokener
 
 class MainActivity : AppCompatActivity() {
     private lateinit var statusText: TextView
@@ -31,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         init()
 
         readData()
-        dbManager.deleteFromDb()
+    //    dbManager.deleteFromDb()
 
     //    insertData()
 
@@ -42,13 +45,48 @@ class MainActivity : AppCompatActivity() {
 
     private fun insertData() {
         try {
-//            val thread = Thread{
-//                //Работа с api
-//                val client = OkHttpClient()
-//            }
-            dbManager.openDb()
+            val thread = Thread {
+                //Работа с api
+                val client = OkHttpClient()
+                val request = Request.Builder()
+                    .url("https://free-epic-games.p.rapidapi.com/free")
+                    .get()
+                    .addHeader("X-RapidAPI-Key", "531597c006msh7b2eedadf7a590bp10af15jsn3ba9d7400d03")
+                    .addHeader("X-RapidAPI-Host", "free-epic-games.p.rapidapi.com")
+                    .build()
 
-            dbManager.closeDb()
+                val response = client.newCall(request).execute() //Отправка запроса в api
+                val result = response.body()?.string() //Получение результатов в видо json файла
+                var error = JSONObject(result).optString("message")
+                if (error.isNotEmpty()) {
+                    runOnUiThread {
+                        statusText.text = "Конец света! Нет больше еды!"
+                    }
+                } else {
+                    dbManager.deleteFromDb()
+                    val jsonObject = JSONTokener(result).nextValue() as JSONObject
+                    val jsonFreeGames = jsonObject.getJSONObject("freeGames")
+                    val jsonArray = jsonFreeGames.getJSONArray("current")
+                    val jsonArrayFuture = jsonFreeGames.getJSONArray("upcoming")
+                    runOnUiThread {
+                        dbManager.openDb()
+                        for (i in 0 until jsonArray.length()) {
+                            val title = jsonArray.getJSONObject(i).getString("title")
+                            val desc = jsonArray.getJSONObject(i).getString("description")
+                            val image = jsonArray.getJSONObject(i).getJSONArray("keyImages").getJSONObject(0).getString("url")
+                            dbManager.insertToDb(Game(title, desc, image, "current"))
+                        }
+                        for (i in 0 until jsonArrayFuture.length()) {
+                            val title = jsonArrayFuture.getJSONObject(i).getString("title")
+                            val desc = jsonArrayFuture.getJSONObject(i).getString("description")
+                            val image = jsonArrayFuture.getJSONObject(i).getJSONArray("keyImages").getJSONObject(0).getString("url")
+                            dbManager.insertToDb(Game(title, desc, image, "future"))
+                        }
+                        dbManager.closeDb()
+                    }
+                }
+            }
+            thread.start() //Открытие потока
         }
         catch (ex: Exception){
             println(ex)
@@ -120,7 +158,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_refresh -> {
-            Toast.makeText(this, "Обновляю данные", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Обновляю данные...", Toast.LENGTH_SHORT).show()
+            insertData()
+
+            val handler = Handler()
+            handler.postDelayed(Runnable {
+                readData()
+
+                setCurrentAdapter(gameList)
+                setFutureAdapter(gameFutList)
+            }, 5000)
+
             true
         }
 
