@@ -23,8 +23,6 @@ class MainActivity : AppCompatActivity() {
         val gameList = ArrayList<Game>()
         val gameFutList = ArrayList<Game>()
 
-
-
         val game1 = Game(
             "Test1",
             "test game description",
