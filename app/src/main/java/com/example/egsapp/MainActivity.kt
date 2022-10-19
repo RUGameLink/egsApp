@@ -34,9 +34,6 @@ class MainActivity : AppCompatActivity() {
         init()
 
         readData()
-    //    dbManager.deleteFromDb()
-
-    //    insertData()
 
         setStatus()
         setCurrentAdapter(gameList)
