@@ -11,13 +11,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.egsapp.adapter.CurrentRecyclerAdapter
 import com.example.egsapp.adapter.FutureRecyclerAdapter
+import com.example.egsapp.database.DbManager
 
 class MainActivity : AppCompatActivity() {
     private lateinit var statusText: TextView
     private lateinit var currentText: TextView
     private lateinit var futureText: TextView
+
     private val gameList = ArrayList<Game>()
     private val gameFutList = ArrayList<Game>()
+
+    private val dbManager = DbManager(this) //Инициализация бд-менеджера
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
