@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.egsapp.adapter.CurrentRecyclerAdapter
 import com.example.egsapp.adapter.FutureRecyclerAdapter
 import com.example.egsapp.database.DbManager
+import okhttp3.OkHttpClient
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
     private lateinit var statusText: TextView
@@ -28,46 +30,29 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         init()
 
+        readData()
+        dbManager.deleteFromDb()
 
-
-        val game1 = Game(
-            "Test1",
-            "test game description",
-            "https://cdn1.epicgames.com/offer/d5241c76f178492ea1540fce45616757/egs-vault-w4-1920x1080_1920x1080-2df36fe63c18ff6fcb5febf3dd7ed06e",
-            "current"
-        )
-        gameList.add(game1)
-
-        val game2 = Game(
-            "Test2",
-            "etwet ewtwet kew oewt ewot owket ko-wetkwet oweot kweotkwe tkwe- okwe ktew otewotoewtkewtk-ewt  k-ewtkot wet-kewtokw",
-            "https://cdn1.epicgames.com/offer/d5241c76f178492ea1540fce45616757/egs-vault-w4-1920x1080_1920x1080-2df36fe63c18ff6fcb5febf3dd7ed06e",
-            "current"
-        )
-        gameList.add(game2)
-
-
-
-
-        val game11 = Game(
-            "Test Future 1",
-            "A mix between Portal, Zelda and Metroid. Explore, solve puzzles, beat up monsters, find secret upgrades and new abilities that help you reach new places. Playtime 12-25h.",
-            "https://cdn1.epicgames.com/salesEvent/salesEvent/EGS_Supraland_SupraGames_S4_1200x1600-a6d4a615d97e0e784f93dbde64daa345",
-            "future"
-        )
-        gameFutList.add(game11)
-
-        val game12 = Game(
-            "Test Future 2",
-            "A mix between Portal, Zelda and Metroid. Explore, solve puzzles, beat up monsters, find secret upgrades and new abilities that help you reach new places. Playtime 12-25h.",
-            "https://cdn1.epicgames.com/salesEvent/salesEvent/EGS_Supraland_SupraGames_S4_1200x1600-a6d4a615d97e0e784f93dbde64daa345",
-            "future"
-        )
-        gameFutList.add(game12)
+    //    insertData()
 
         setStatus()
         setCurrentAdapter(gameList)
         setFutureAdapter(gameFutList)
+    }
+
+    private fun insertData() {
+        try {
+//            val thread = Thread{
+//                //Работа с api
+//                val client = OkHttpClient()
+//            }
+            dbManager.openDb()
+
+            dbManager.closeDb()
+        }
+        catch (ex: Exception){
+            println(ex)
+        }
     }
 
     private fun init(){
@@ -87,6 +72,26 @@ class MainActivity : AppCompatActivity() {
             currentText.visibility = View.VISIBLE
             futureText.visibility = View.VISIBLE
         }
+    }
+
+    private fun readData(){
+        try {
+            dbManager.openDb()
+            val tempData = dbManager.readDbDataFromDb()
+            for (i in 0 .. tempData.size){
+                if (tempData[i].status.equals("current")){
+                    gameList.add(tempData[i])
+                }
+                else{
+                    gameFutList.add(tempData[i])
+                }
+            }
+            dbManager.closeDb()
+        }
+        catch (ex: Exception){
+            println(ex)
+        }
+
     }
 
 

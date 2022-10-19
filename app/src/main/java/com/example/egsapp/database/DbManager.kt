@@ -47,6 +47,14 @@ class DbManager (context: Context) {
         }
         cursor?.close()
         return dataList//Возврат листа
+    }
 
+    fun deleteFromDb(){ //ОЧИСТКА БД
+        dataBase?.execSQL(DbName.SQL_DELETE_TABLE) //УДАЛЕНИЕ ТЕКУЩЕЙ ТАБЛИЦЫ
+        dataBase?.execSQL(DbName.CREATE_TABLE) //СОЗДАНИЕ НОВОЙ ТАБЛИЦЫ
+    }
+
+    fun closeDb(){ //Функция закрытия БД
+        dbHelper.close()
     }
 }
