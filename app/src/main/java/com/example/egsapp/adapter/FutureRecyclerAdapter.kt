@@ -1,4 +1,4 @@
-package com.example.egsapp
+package com.example.egsapp.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,20 +6,22 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.egsapp.Game
+import com.example.egsapp.R
 import com.squareup.picasso.Picasso
 
-class CurrentRecyclerAdapter(private val game: ArrayList<Game>): RecyclerView.Adapter<CurrentRecyclerAdapter.MyViewHolder>() {
+class FutureRecyclerAdapter(private val game: ArrayList<Game>): RecyclerView.Adapter<FutureRecyclerAdapter.MyViewHolder>() {
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){ //Инициализация объектов лайаута айтемов ресайклера
-        val wallpaperImage: ImageView = itemView.findViewById(R.id.wallpaperImage)
-        val titleText: TextView = itemView.findViewById(R.id.titleText)
-        val descText: TextView = itemView.findViewById(R.id.descText)
+        var wallpaperImage: ImageView = itemView.findViewById(R.id.wallpaperImageFut)
+        val titleText: TextView = itemView.findViewById(R.id.titleTextFut)
+        val descText: TextView = itemView.findViewById(R.id.descTextFut)
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder { //Подвязка лайаута к адаптеру ресайклера
         val itemView =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.recycler_item, parent, false) //Определение лайаута
+                .inflate(R.layout.future_recycler_item, parent, false) //Определение лайаута
         return MyViewHolder(itemView)
     }
 
