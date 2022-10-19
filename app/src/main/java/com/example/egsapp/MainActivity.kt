@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,13 +16,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var statusText: TextView
     private lateinit var currentText: TextView
     private lateinit var futureText: TextView
+    private val gameList = ArrayList<Game>()
+    private val gameFutList = ArrayList<Game>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        init()
 
-        val gameList = ArrayList<Game>()
-        val gameFutList = ArrayList<Game>()
+
 
         val game1 = Game(
             "Test1",
@@ -58,9 +61,30 @@ class MainActivity : AppCompatActivity() {
         )
         gameFutList.add(game12)
 
+        setStatus()
         setCurrentAdapter(gameList)
         setFutureAdapter(gameFutList)
     }
+
+    private fun init(){
+        statusText = findViewById(R.id.statusText)
+        futureText = findViewById(R.id.futureText)
+        currentText = findViewById(R.id.currentText)
+    }
+
+    private fun setStatus() {
+        if (gameList.isEmpty()){
+            statusText.visibility = View.VISIBLE
+            currentText.visibility = View.INVISIBLE
+            futureText.visibility = View.INVISIBLE
+        }
+        else{
+            statusText.visibility = View.INVISIBLE
+            currentText.visibility = View.VISIBLE
+            futureText.visibility = View.VISIBLE
+        }
+    }
+
 
     private fun setCurrentAdapter(game: ArrayList<Game>){
         val recyclerView: RecyclerView = findViewById(R.id.currentView) //Подвязка ресайклера к объекту
