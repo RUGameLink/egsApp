@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
     [будут от последнего удачного запроса])
     */
 
-
     //Объявляем переменные для элементов
     private lateinit var statusText: TextView
     private lateinit var currentText: TextView
