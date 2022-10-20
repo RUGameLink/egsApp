@@ -42,7 +42,7 @@ class DbManager (context: Context) {
                 val imgText = cursor?.getString(cursor.getColumnIndex(DbName.COLUMN_NAME_IMGURL)) //Считывание в переменную из столбца
                 val statusText = cursor?.getString(cursor.getColumnIndex(DbName.COLUMN_NAME_STATUSTITLE)) //Считывание в переменную из столбца
 
-                dataList.add(Game(titleText, descText, imgText, statusText))
+                dataList.add(Game(titleText, descText, imgText, statusText)) //Добавляем в лист считанный объект
             }
         }
         cursor?.close()

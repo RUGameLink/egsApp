@@ -26,7 +26,7 @@ class FutureRecyclerAdapter(private val game: ArrayList<Game>): RecyclerView.Ada
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) { //Запись в айтем данных в заготовленные textview
-        Picasso.get().load(game[position].imageURL).into(holder.wallpaperImage)
+        Picasso.get().load(game[position].imageURL).into(holder.wallpaperImage) //Тянем с помощью Picasso из ссылки картинку игры
         holder.titleText.text = game[position].title
         holder.descText.text = game[position].description
     }
