@@ -180,16 +180,16 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) { //Слушаем нажатие на кнопку по id
         R.id.action_refresh -> {
             Toast.makeText(this, "Обновляю данные...", Toast.LENGTH_SHORT).show()
+            gameList.clear()
+            gameFutList.clear()
             insertData() //Считываем данные с api
 
             //Используем задержку перед обновлением адаптеров и считыванием данных (задержка нужна для того, чтобы адекватно распарсить данные и залить их в бд)
             val handler = Handler()
             handler.postDelayed(Runnable {
-                readData()
 
                 if(isOnline(this)){
-                    gameList.clear()
-                    gameFutList.clear()
+
                     readData()
                 }
                 else{
