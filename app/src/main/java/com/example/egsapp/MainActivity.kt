@@ -1,7 +1,13 @@
 package com.example.egsapp
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.support.annotation.RequiresApi
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -170,6 +176,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    @androidx.annotation.RequiresApi(Build.VERSION_CODES.M)
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) { //Слушаем нажатие на кнопку по id
         R.id.action_refresh -> {
             Toast.makeText(this, "Обновляю данные...", Toast.LENGTH_SHORT).show()
@@ -179,6 +186,15 @@ class MainActivity : AppCompatActivity() {
             val handler = Handler()
             handler.postDelayed(Runnable {
                 readData()
+
+                if(isOnline(this)){
+                    gameList.clear()
+                    gameFutList.clear()
+                    readData()
+                }
+                else{
+                    Toast.makeText(this, "Отсутствует подключение к сети", Toast.LENGTH_SHORT).show()
+                }
 
                 setCurrentAdapter(gameList)
                 setFutureAdapter(gameFutList)
@@ -190,5 +206,28 @@ class MainActivity : AppCompatActivity() {
         else -> {
             super.onOptionsItemSelected(item)
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun isOnline(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (connectivityManager != null) {
+            val capabilities =
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            if (capabilities != null) {
+                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                    return true
+                }
+            }
+        }
+        return false
     }
 }
